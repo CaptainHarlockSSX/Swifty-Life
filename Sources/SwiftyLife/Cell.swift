@@ -9,14 +9,14 @@ import Foundation
 
 
 /// Model of a cell in Conway's simulation.
-struct Cell: Identifiable {
-	let id: UUID
-	var isAlive: Bool
+public struct Cell: Identifiable {
+	public let id: UUID
+	public var isAlive: Bool
 	
 	/// Position (x,y) of the cell in the grid.
-	let position: IntPoint
+	public let position: IntPoint
 	
-	init(id: UUID = UUID(), isAlive: Bool, position: IntPoint) {
+	public init(id: UUID = UUID(), isAlive: Bool, position: IntPoint) {
 		self.id = id
 		self.isAlive = isAlive
 		self.position = position

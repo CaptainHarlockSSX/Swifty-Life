@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 /// Conway's Game of Life logic implemented in Swift.
-final class LifeModel: ObservableObject {
+public final class LifeModel: ObservableObject {
 	/// Size (width x height, in pixels) of the simulation universe.
 	private var size: IntSize
 	
@@ -23,7 +23,7 @@ final class LifeModel: ObservableObject {
 	private(set) var grid = [Cell]()
 	
 	/// Timer publishing each time the simulation iterates. Listen to this variable to update your UI.
-	@Published var timer = Timer.publish(every: 1, tolerance: 0.2, on: .main, in: .common)
+	@Published public var timer = Timer.publish(every: 1, tolerance: 0.2, on: .main, in: .common)
 	
 	/// LifeModel initializer.
 	///
@@ -34,7 +34,7 @@ final class LifeModel: ObservableObject {
 	/// - Parameters:
 	///   - size: Size (width x height, in pixels) of the simulation universe.
 	///   - livingCellsAmount: Percentage of living cells to create for starting conditions. You should input a value between 0 and 100.
-	init(size: IntSize, livingCellsAmount: Int) {
+	public init(size: IntSize, livingCellsAmount: Int) {
 		self.size = size
 		self.livingCellsAmount = livingCellsAmount
 		generateRandomGrid(size)
@@ -45,13 +45,13 @@ final class LifeModel: ObservableObject {
 	///   - width: Width (in pixels) of the simulation universe.
 	///   - height: Height (in pixels) of the simulation universe.
 	///   - livingCellsAmount: Percentage of living cells to create for starting conditions. You should input a value between 0 and 100.
-	convenience init(width: Int, height: Int, livingCellsAmount: Int) {
+	public convenience init(width: Int, height: Int, livingCellsAmount: Int) {
 		self.init(size: IntSize(width: width, height: height), livingCellsAmount: livingCellsAmount)
 	}
 	
 	/// Starting conditions of the simulation. It generates a new grid with a random amount of living cells based on ``livingCellsAmount`` parameter.
 	/// - Parameter size: Size (width x height, in pixels) of the simulation universe.
-	fileprivate func generateRandomGrid(_ size: IntSize) {
+	private func generateRandomGrid(_ size: IntSize) {
 		for x in 0 ..< size.width {
 			for y in 0 ..< size.height {
 				let cell: Cell
@@ -79,7 +79,7 @@ final class LifeModel: ObservableObject {
 	
 	/// Evolve the current state of the simulation to the next one, applying standard rules of Conway's simulation.
 	/// - Returns: None
-	func nextIteration() -> Void {
+	public func nextIteration() -> Void {
 		var newGrid = [Cell]()
 		let livingCells = grid.filter { $0.isAlive }
 		
@@ -104,14 +104,14 @@ final class LifeModel: ObservableObject {
 	
 	/// Reset the simulation by generating a new random grid.
 	/// - Returns: None
-	func resetSimulation() -> Void {
+	public func resetSimulation() -> Void {
 		grid = [Cell]()
 		generateRandomGrid(size)
 	}
 	
 	/// Stop the simulation and disconnect the timer publisher.
 	/// - Returns: None
-	func stopSimulation() -> Void {
+	public func stopSimulation() -> Void {
 		timerSubscription?.cancel()
 		timerSubscription = nil
 	}
@@ -119,7 +119,7 @@ final class LifeModel: ObservableObject {
 	/// Start the simulation and connect the timer which will publish at each new iteration.
 	/// - Parameter fps: The number of iteration per seconds.
 	/// - Returns: None
-	func startSimulation(at fps: Double) -> Void {
+	public func startSimulation(at fps: Double) -> Void {
 		timer = Timer.publish(every: 1 / fps, tolerance: 0.2, on: .main, in: .common)
 		timerSubscription = timer.connect()
 	}

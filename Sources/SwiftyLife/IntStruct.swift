@@ -8,13 +8,13 @@
 import Foundation
 
 /// Definition of a 2D size using Integer precision, as the simulation runs in a discrete space.
-struct IntSize {
+public struct IntSize {
 	var width: Int
 	var height: Int
 }
 
 /// Definition of a 2D point location using Integer precision, as the simulation runs in a discrete space.
-struct IntPoint {
+public struct IntPoint {
 	var x: Int
 	var y: Int
 }
