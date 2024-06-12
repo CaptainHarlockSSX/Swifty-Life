@@ -19,23 +19,14 @@ It follows the original rules :
   
 - Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
 
-## Topics
-
-### How to use
+## How to use
 
 Create your own UI and instantiate a ``LifeModel`` as a `StateObject` in your app.
 
-Thereafter you can call any methods you need such as ``LifeModel/startSimulation``, ``LifeModel/stopSimulation``, ``LifeModel/resetSimulation`` or ``LifeModel/nextIteration``.
+Thereafter you can call any methods you need such as ``LifeModel/startSimulation(at:)``, ``LifeModel/stopSimulation()`` or ``LifeModel/resetSimulation()``.
+Starting the simulation will connect a ``LifeModel/timer`` publisher to notifies each time the simulation iterates.
 
-Starting the simulation will connect a LifeModel/timer publisher to notifies each time the simulation iterates.
-
-### Content
-
-``LifeModel``
- 
-``Cell``
- 
-``IntStruct``
+You can manually iterate the simulation by calling yourself ``LifeModel/nextIteration()``. 
 
 
 

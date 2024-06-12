@@ -33,7 +33,11 @@ Read the documentation to integrate this package within your app.
 | Edit Simulation FPS | 🟢  |
 | Edit Cell Generation Randomness | 🟢  |
 | Edit Grid Size (1) | 🔴  |
-| Documentation | 🟠  |
+| Documentation | 🟢  |
 | Unit Tests | 🔴  |
 
 (1) Currently grid (i.e simulation universe) size is only defined at model instanciation.
+
+## References
+
+My code was inspired by this implementation : https://getswifty.dev/game-of-life-in-swift-playgrounds/
