@@ -11,7 +11,7 @@ import Combine
 /// Conway's Game of Life logic implemented in Swift.
 public final class LifeModel: ObservableObject {
 	/// Size (width x height, in pixels) of the simulation universe.
-	private var size: IntSize
+	public private(set) var size: IntSize
 	
 	/// A timer subscriber which notifies
 	private var timerSubscription: Cancellable?
@@ -20,7 +20,7 @@ public final class LifeModel: ObservableObject {
 	private var livingCellsAmount: Int
 	
 	/// The simulation universe, represented in two dimensions by a grid of pixels.
-	private(set) var grid = [Cell]()
+	public private(set) var grid = [Cell]()
 	
 	/// Timer publishing each time the simulation iterates. Listen to this variable to update your UI.
 	@Published public var timer = Timer.publish(every: 1, tolerance: 0.2, on: .main, in: .common)
