@@ -62,11 +62,11 @@ public final class LifeModel: ObservableObject {
 					continue
 				}
 				
-				// Returns a random value between 0 and 3 excluded
-				let randomState = arc4random_uniform(UInt32(100 - livingCellsAmount))
+				// Returns a random value between 0 and 100 excluded
+				let randomState = Int(arc4random_uniform(100))
 				
 				switch randomState {
-				case 0:
+				case 0..<livingCellsAmount:
 					cell = Cell(isAlive: true, position: IntPoint(x: x, y: y))
 				default:
 					cell = Cell(isAlive: false, position: IntPoint(x: x, y: y))
