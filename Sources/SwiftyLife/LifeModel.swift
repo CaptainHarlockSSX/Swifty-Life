@@ -11,13 +11,13 @@ import Combine
 /// Conway's Game of Life logic implemented in Swift.
 public final class LifeModel: ObservableObject {
 	/// Size (width x height, in pixels) of the simulation universe.
-	public private(set) var size: IntSize
+	public private(set) var size: UIntSize
 	
 	/// A timer subscriber which notifies
 	private var timerSubscription: Cancellable?
 	
 	/// Percentage of living cells to create for starting conditions.
-	private var livingCellsAmount: Int
+	private var livingCellsAmount: UInt
 	
 	/// The simulation universe, represented in two dimensions by a grid of pixels.
 	public private(set) var grid = [Cell]()
@@ -34,7 +34,7 @@ public final class LifeModel: ObservableObject {
 	/// - Parameters:
 	///   - size: Size (width x height, in pixels) of the simulation universe.
 	///   - livingCellsAmount: Percentage of living cells to create for starting conditions. You should input a value between 0 and 100.
-	public init(size: IntSize, livingCellsAmount: Int) {
+	public init(size: UIntSize, livingCellsAmount: UInt) {
 		self.size = size
 		self.livingCellsAmount = livingCellsAmount
 		generateRandomGrid(size)
@@ -45,31 +45,25 @@ public final class LifeModel: ObservableObject {
 	///   - width: Width (in pixels) of the simulation universe.
 	///   - height: Height (in pixels) of the simulation universe.
 	///   - livingCellsAmount: Percentage of living cells to create for starting conditions. You should input a value between 0 and 100.
-	public convenience init(width: Int, height: Int, livingCellsAmount: Int) {
-		self.init(size: IntSize(width: width, height: height), livingCellsAmount: livingCellsAmount)
+	public convenience init(width: UInt, height: UInt, livingCellsAmount: UInt) {
+		self.init(size: UIntSize(width: width, height: height), livingCellsAmount: livingCellsAmount)
 	}
 	
 	/// Starting conditions of the simulation. It generates a new grid with a random amount of living cells based on ``livingCellsAmount`` parameter.
 	/// - Parameter size: Size (width x height, in pixels) of the simulation universe.
-	private func generateRandomGrid(_ size: IntSize) {
+	private func generateRandomGrid(_ size: UIntSize) {
 		for x in 0 ..< size.width {
 			for y in 0 ..< size.height {
 				let cell: Cell
-				
-				guard livingCellsAmount > 0 else {
-					cell = Cell(isAlive: false, position: IntPoint(x: x, y: y))
-					grid.append(cell)
-					continue
-				}
-				
+								
 				// Returns a random value between 0 and 100 excluded
 				let randomState = Int(arc4random_uniform(100))
 				
 				switch randomState {
-				case 0..<livingCellsAmount:
-					cell = Cell(isAlive: true, position: IntPoint(x: x, y: y))
+				case 0..<Int(livingCellsAmount):
+					cell = Cell(isAlive: true, position: IntPoint(x: Int(x), y: Int(y)))
 				default:
-					cell = Cell(isAlive: false, position: IntPoint(x: x, y: y))
+					cell = Cell(isAlive: false, position: IntPoint(x: Int(x), y: Int(y)))
 				}
 				
 				grid.append(cell)
@@ -122,5 +116,25 @@ public final class LifeModel: ObservableObject {
 	public func startSimulation(at fps: Double) -> Void {
 		timer = Timer.publish(every: 1 / fps, tolerance: 0.2, on: .main, in: .common)
 		timerSubscription = timer.connect()
+	}
+	
+	/// Edit amount of alive cells generated when grid is reset. This action will automatically stop and reset the simulation if running.
+	///
+	/// Consider the amount as a percentage and pass a value between 0 (only dead cells) and 100 (only living cells).
+	/// - Parameter newAmount: Amount of alive cells at new grid generation.
+	/// - Returns: None
+	public func editLivingCellsAmount(to newAmount: UInt) -> Void {
+		stopSimulation()
+		livingCellsAmount = newAmount
+		resetSimulation()
+	}
+	
+	/// Edit simulation universe grid size. This action will automatically stop and reset the simulation if running.
+	/// - Parameter newSize: New desired size (width x height).
+	/// - Returns: None
+	public func editGridSize(to newSize: UIntSize) -> Void {
+		stopSimulation()
+		size = newSize
+		resetSimulation()
 	}
 }
