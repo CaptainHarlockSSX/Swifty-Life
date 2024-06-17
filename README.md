@@ -32,11 +32,9 @@ Read the documentation to integrate this package within your app.
 | Reset Simulation | 🟢  |
 | Edit Simulation FPS | 🟢  |
 | Edit Cell Generation Randomness | 🟢  |
-| Edit Grid Size (1) | 🔴  |
+| Edit Grid Size | 🟢  |
 | Documentation | 🟢  |
 | Unit Tests | 🔴  |
-
-(1) Currently grid (i.e simulation universe) size is only defined at model instanciation.
 
 ## References
 
